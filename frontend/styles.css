@@ -1,0 +1,154 @@
+/* PAGE BACKGROUND */
+body {
+  background: linear-gradient(135deg, #d6e8ff, #eff6ff);
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* MAIN WRAPPER FULL WIDTH */
+.content-wrapper {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+/* INTRO BOX */
+.intro-box {
+  width: 100%;
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  margin-bottom: 40px;
+}
+
+.intro-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1e3d6b;
+}
+
+.intro-text {
+  font-size: 17px;
+  color: #2d4666;
+}
+
+.intro-list {
+  list-style: none;
+  padding: 0;
+  margin: 20px auto 0 auto;
+  max-width: 600px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.intro-list li {
+  margin: 8px 0;
+  font-size: 16px;
+  color: #1f3d63;
+}
+
+/* DIVIDER */
+.section-divider {
+  margin: 40px auto;
+  width: 85%;
+  border-top: 2px solid #bcd3ef;
+}
+
+/* STEPS */
+.step-title {
+  font-size: 28px;
+  color: #16345a;
+  font-weight: 700;
+}
+
+.step-sub {
+  font-size: 18px;
+  margin-bottom: 20px;
+  color: #345b87;
+}
+
+/* BOXES */
+.step-box {
+  width: 100%;
+  max-width: 600px;
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  margin: 0 auto;
+}
+
+/* BUTTONS */
+.btn-primary-blue {
+  background: #3d7ce0;
+  border: none;
+  padding: 12px;
+  color: white;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn-primary-blue:hover {
+  background: #2f63b5;
+}
+
+.btn-secondary-blue {
+  background: #5aa1f2;
+  border: none;
+  padding: 12px;
+  color: white;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn-secondary-blue:hover {
+  background: #4a8ccd;
+}
+
+.btn-outline-blue {
+  border: 2px solid #3d7ce0;
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 8px;
+  color: #3d7ce0;
+  cursor: pointer;
+  background: white;
+}
+
+.btn-outline-blue:hover {
+  background: #e7f0ff;
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 15px;
+  background: transparent;
+  color: #183a63;
+  font-weight: 600;
+  margin-top: 40px;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 40px;
+}
+
+textarea {
+    width: 100%;
+    max-width: 700px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
