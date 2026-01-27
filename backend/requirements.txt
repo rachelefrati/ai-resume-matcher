@@ -5,3 +5,5 @@ docx2txt
 PyMuPDF
 pdfplumber
 python-docx
+sentence-transformers
+
