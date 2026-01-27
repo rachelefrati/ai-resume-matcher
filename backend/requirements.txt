@@ -6,4 +6,5 @@ PyMuPDF
 pdfplumber
 python-docx
 sentence-transformers
+requests
 
