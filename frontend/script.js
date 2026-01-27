@@ -1,52 +1,107 @@
+// ---------------------------
+// Elements
+// ---------------------------
+const cvInput = document.getElementById("cvInput");
+const selectedFileName = document.getElementById("selectedFileName");
+
+// Show selected CV file name in Step 2
+cvInput.addEventListener("change", () => {
+    if (cvInput.files.length > 0) {
+        selectedFileName.textContent = `Selected file: ${cvInput.files[0].name}`;
+    } else {
+        selectedFileName.textContent = "";
+    }
+});
+
+// ---------------------------
+// Functions
+// ---------------------------
+
+// Send CV file + job description to backend
 async function sendData() {
     const resultElement = document.getElementById("result");
-    const jobDescription = document.getElementById("jobText").value;
-    const cvFile = document.getElementById("cvInput").files[0];
+    const jobDescription = document.getElementById("jobText").value.trim();
+    const cvFile = cvInput.files[0];
 
     if (!cvFile) {
-        resultElement.textContent = "Please select a CV file first!";
+        resultElement.innerHTML = `<div class="text-danger">Please select a CV file first!</div>`;
+        return;
+    }
+    if (!jobDescription) {
+        resultElement.innerHTML = `<div class="text-danger">Please enter a job description!</div>`;
         return;
     }
 
-    const reader = new FileReader();
-    reader.onload = async function() {
-        const resumeText = reader.result;
+    // Show Step 3 and hide Step 2
+    document.getElementById('step2').style.display = 'none';
+    document.getElementById('step3').style.display = 'block';
 
-        try {
-            const response = await fetch("http://127.0.0.1:8000/match", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    resume_text: resumeText,
-                    job_description: jobDescription
-                })
-            });
+    // Show loading state
+    resultElement.innerHTML = `<div class="text-center">Analyzing...</div>`;
 
-            if (!response.ok) throw new Error("Network response was not ok");
+    // Prepare FormData
+    const formData = new FormData();
+    formData.append("resume_file", cvFile);
+    formData.append("job_description", jobDescription);
 
-            const data = await response.json();
+    try {
+        const response = await fetch("http://127.0.0.1:8000/match-file", {
+            method: "POST",
+            body: formData
+        });
 
-            // Build HTML for results
-            let html = `<p><strong>Score:</strong> ${data.score}%</p>`;
-            html += `<p><strong>Feedback:</strong> ${data.feedback}</p>`;
-            if (data.missing_skills && data.missing_skills.length > 0) {
-                html += `<p><strong>Missing Skills:</strong></p><ul>`;
-                data.missing_skills.forEach(skill => {
-                    html += `<li>${skill}</li>`;
-                });
-                html += `</ul>`;
-            }
+        if (!response.ok) throw new Error(`Server error: ${response.status}`);
 
-            resultElement.innerHTML = html;
+        const data = await response.json();
 
-            // Show Step 3
-            document.getElementById('step2').style.display = 'none';
-            document.getElementById('step3').style.display = 'block';
+        // Determine card border based on overall similarity
+        let borderClass = "border-danger";
+        const scorePercent = data.match_score;
+        if (scorePercent > 80) borderClass = "border-success";
+        else if (scorePercent > 50) borderClass = "border-warning";
 
-        } catch (error) {
-            resultElement.textContent = "Error: " + error.message;
-        }
-    };
+        // Build HTML with top chunks
+        let html = `
+            <div class="card ${borderClass} mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Match Score: ${scorePercent}%</h5>
+                    <p class="card-text">${data.summary}</p>
+                    <h6 class="card-subtitle mb-2 text-muted">Top Matching Resume Chunks</h6>
+                    <ul>
+        `;
 
-    reader.readAsText(cvFile);
+        data.top_matches.forEach(chunkObj => {
+            html += `<li>${chunkObj.chunk} <strong>(Similarity: ${Math.round(chunkObj.similarity * 100)}%)</strong></li>`;
+        });
+
+        html += `
+                    </ul>
+                </div>
+            </div>
+        `;
+
+        resultElement.innerHTML = html;
+
+    } catch (error) {
+        console.error(error);
+        resultElement.innerHTML = `<div class="text-danger">Error: ${error.message}</div>`;
+    }
+}
+
+// ---------------------------
+// Navigation functions (already in index.html)
+// ---------------------------
+function goToStep2() {
+    document.getElementById('step1').style.display = 'none';
+    document.getElementById('step2').style.display = 'block';
+
+    // Show file name if already selected
+    if (cvInput.files.length > 0) {
+        selectedFileName.textContent = `Selected file: ${cvInput.files[0].name}`;
+    }
+}
+
+function goToStep1() {
+    document.getElementById('step3').style.display = 'none';
+    document.getElementById('step1').style.display = 'block';
 }
