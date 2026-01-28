@@ -1,14 +1,7 @@
 from file_parser import extract_text_from_pdf, extract_text_from_docx
 from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
-from typing import List
-import docx2txt
-import fitz  # PyMuPDF for PDFs
 from services.ai_matcher import match_resume_with_job
-
-
-
-
 
 
 app = FastAPI()
@@ -45,3 +38,7 @@ async def match_file(
 
     # Step 3: return result
     return result
+
+@app.get("/")
+def health():
+    return {"status": "ok"}
