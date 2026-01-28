@@ -7,4 +7,5 @@ pdfplumber
 python-docx
 sentence-transformers
 requests
-
+torch
+pypdf
