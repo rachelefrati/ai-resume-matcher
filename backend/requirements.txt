@@ -5,7 +5,9 @@ docx2txt
 PyMuPDF
 pdfplumber
 python-docx
-sentence-transformers
 requests
-torch
 pypdf
+torch==2.1.0+cpu
+sentence-transformers==2.2.2
+--extra-index-url https://download.pytorch.org/whl/cpu
+
